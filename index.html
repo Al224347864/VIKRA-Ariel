@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>לומדים ויקרא יט וכה א-יג | כיתה ה</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: #ffffff;
+      --surface-soft: #eef3ff;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #0d9488;
+      --accent-soft: #ccfbf1;
+      --text: #1e293b;
+      --muted: #475569;
+      --border: #dbeafe;
+      --ok: #15803d;
+      --ok-bg: #dcfce7;
+      --err: #b91c1c;
+      --err-bg: #fee2e2;
+      --warn-bg: #fef3c7;
+      --warn-text: #92400e;
+      --radius: 16px;
+      --shadow: 0 8px 24px rgba(30, 41, 59, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 220px);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e40af, #0284c7);
+      color: #ffffff;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 1.9rem;
+    }
+
+    header p {
+      margin: 0 auto;
+      max-width: 760px;
+      font-size: 1.05rem;
+      opacity: 0.96;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 24px auto 50px;
+      padding: 0 16px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .tab-btn {
+      background: var(--surface);
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.28);
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: var(--primary-dark);
+      font-size: 1.4rem;
+    }
+
+    .card h3 {
+      margin: 16px 0 6px;
+      color: var(--accent);
+      font-size: 1.12rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--surface-soft);
+      color: var(--primary-dark);
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 6px;
+      margin: 14px 0;
+    }
+
+    .year-box {
+      padding: 8px 4px;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      transition: transform 0.15s ease;
+    }
+
+    .year-box:hover {
+      transform: scale(1.05);
+    }
+
+    .year-box.shmita {
+      background: #fef08a;
+      border-color: #eab308;
+      color: #713f12;
+    }
+
+    .year-box.yovel {
+      background: #bbf7d0;
+      border-color: #16a34a;
+      color: #14532d;
+    }
+
+    .year-box.selected {
+      outline: 3px solid var(--primary);
+    }
+
+    .info-box {
+      background: var(--surface-soft);
+      border-right: 5px solid var(--primary);
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn.secondary {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+
+    .btn.secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .btn.accent {
+      background: var(--accent);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    select,
+    input[type="text"] {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #ffffff;
+    }
+
+    input[type="text"] {
+      width: 100%;
+    }
+
+    .glossary-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .term-card {
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .term-title {
+      font-weight: 800;
+      color: var(--primary-dark);
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .progress-wrap {
+      background: #e2e8f0;
+      border-radius: 999px;
+      height: 16px;
+      overflow: hidden;
+      margin: 10px 0 14px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .q-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+      background: #ffffff;
+    }
+
+    .q-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .opt-label {
+      display: block;
+      padding: 10px 12px;
+      margin: 8px 0;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #f8fafc;
+    }
+
+    .opt-label:hover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+
+    .opt-label input {
+      margin-left: 8px;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.96rem;
+    }
+
+    .feedback.ok {
+      background: var(--ok-bg);
+      color: var(--ok);
+    }
+
+    .feedback.err {
+      background: var(--err-bg);
+      color: var(--err);
+    }
+
+    .notice {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    .score-box {
+      background: linear-gradient(135deg, #eff6ff, #ecfdf5);
+      border: 2px solid var(--primary);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 800px) {
+      .tabs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .grid-2,
+      .glossary-list {
+        grid-template-columns: 1fr;
+      }
+      .year-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>לומדים תורה יחד — ויקרא פרק יט ופרק כה פסוקים א-יג</h1>
+    <p>למידה ברורה, ידידותית ומסודרת לכיתה ה על מצוות שבין אדם למקום ולחברו, שנת שמיטה ושנת יובל</p>
+  </header>
+
+  <main class="container">
+    <nav class="tabs" aria-label="ניווט בין חלקי הלומדה">
+      <button class="tab-btn active" data-tab="info">דף מידע והדמיה</button>
+      <button class="tab-btn" data-tab="speech">הקראה קולית</button>
+      <button class="tab-btn" data-tab="glossary">דף מושגים</button>
+      <button class="tab-btn" data-tab="quiz">תרגול ומבחן</button>
+    </nav>
+
+    <!-- לשונית 1 מידע והדמיה -->
+    <section id="info" class="panel active">
+      <div class="card">
+        <span class="badge">הכנה למבחן בתורה</span>
+        <h2>מה חשוב להכין למבחן</h2>
+        <p>המבחן מתמקד בשני חלקים מרכזיים בספר ויקרא. פרק יט כולו על מצוות שבין אדם למקום ומצוות שבין אדם לחברו. פרק כה פסוקים א-יג על שנת שמיטה ושנת יובל.</p>
+        <p>כדאי לחזור על החומרים במחברת תנך, לעבור על דף החזרה ולהשלים את המשימה באופק על פרק יט.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="badge">ויקרא פרק יט</span>
+          <h2>מצוות שבין אדם למקום ולחברו</h2>
+          <h3>בין אדם למקום</h3>
+          <p>הפרק פותח בקריאה להיות קדושים כי קדוש ה אלוקינו. נכללים בו שמירת שבת, איסור עבודה זרה ואיסור שבועת שקר או שימוש לא ראוי בשם ה.</p>
+          <h3>בין אדם לחברו ויושר בחברה</h3>
+          <p>הפרק מלמד לדאוג לעניים דרך לקט, שכחה ופאה, לשלם שכר בזמן בלי להלין שכר, לא לשים מכשול בפני עיוור ולא לקלל חרש, לשפוט בצדק, לא ללכת רכיל ולא לעמוד על דם רעך, להוכיח באהבה, לא לנקום ולא לנטור, לכבד זקנים ולאהוב את הגר.</p>
+          <h3>ואהבת לרעך כמוך</h3>
+          <p>מצווה מרכזית שמחברת בין יחס מכבד ואכפתי לכל אדם לבין הכרה בכך שכולנו נבראנו בצלם ואחראים זה לזה.</p>
+        </div>
+
+        <div class="card">
+          <span class="badge">ויקרא פרק כה א-יג</span>
+          <h2>שנת שמיטה ושנת יובל</h2>
+          <h3>שנת השמיטה</h3>
+          <p>הציווי נאמר בהר סיני. בכל שנה שביעית הארץ שובתת ממלאכה חקלאית. אסור לזרוע את השדה, לזמור את הכרם ולקצור את הספיח שצמח מאליו, והיבול שגדל הפקר לכל אדם ולבעלי החיים.</p>
+          <h3>שנת היובל</h3>
+          <p>סופרים שבע שמיטות כלומר ארבעים ותשע שנים, והשנה החמישים היא שנת היובל. ביום הכיפורים תוקעים בשופר, מכריזים דרור בארץ לכל יושביה, כל אחד חוזר אל אחוזתו ואל משפחתו, ולא זורעים ולא קוצרים גם בשנת היובל.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge">הדמיה אינטראקטיבית</span>
+        <h2>מחזור חמישים שנות שמיטה ויובל</h2>
+        <p>לחצו על כל שנה בלוח כדי לראות מה מאפיין אותה. שנים שבע, ארבע עשרה, עשרים ואחת, עשרים ושמונה, שלושים וחמש, ארבעים ושתיים וארבעים ותשע הן שנות שמיטה, ושנה חמישים היא שנת היובל.</p>
+        <div id="yearGrid" class="year-grid"></div>
+        <div id="yearDetails" class="info-box"></div>
+      </div>
+    </section>
+
+    <!-- לשונית 2 הקראה קולית -->
+    <section id="speech" class="panel">
+      <div class="card">
+        <span class="badge">Web Speech API</span>
+        <h2>הקראה קולית בעברית</h2>
+        <p>בחרו קטע מתוך חומרי הלימוד והאזינו לו בקול. ניתן להפעיל, להשהות, להמשיך או לעצור בכל רגע.</p>
+
+        <div class="btn-row">
+          <label for="speechSelect"><strong>בחירת קטע להקראה</strong></label>
+          <select id="speechSelect">
+            <option value="all">כל הסיכום המלא</option>
+            <option value="p19_makom">ויקרא פרק יט בין אדם למקום</option>
+            <option value="p19_haver">ויקרא פרק יט בין אדם לחברו</option>
+            <option value="p25_shmita">ויקרא פרק כה שנת שמיטה</option>
+            <option value="p25_yovel">ויקרא פרק כה שנת יובל</option>
+          </select>
+
+          <label for="rateSelect"><strong>מהירות</strong></label>
+          <select id="rateSelect">
+            <option value="0.85">איטי וברור</option>
+            <option value="1" selected>רגיל</option>
+            <option value="1.15">מהיר מעט</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button id="playBtn" class="btn">הפעל הקראה</button>
+          <button id="pauseBtn" class="btn secondary">השהה</button>
+          <button id="resumeBtn" class="btn secondary">המשך</button>
+          <button id="stopBtn" class="btn secondary">עצור</button>
+        </div>
+
+        <div id="speechSupportNotice"></div>
+
+        <div class="info-box" id="speechPreviewText"></div>
+      </div>
+    </section>
+
+    <!-- לשונית 3 דף מושגים -->
+    <section id="glossary" class="panel">
+      <div class="card">
+        <span class="badge">מילון מושגים נגיש</span>
+        <h2>מושגים מרכזיים בויקרא יט וכה א-יג</h2>
+        <p>הקלידו מילה לחיפוש מהיר של מושג או הסבר.</p>
+        <input id="glossarySearch" type="text" placeholder="חיפוש מושג לדוגמה שמיטה, יובל, לקט, לא תטור" />
+        <div id="glossaryList" class="glossary-list"></div>
+      </div>
+    </section>
+
+    <!-- לשונית 4 תרגול ומבחן -->
+    <section id="quiz" class="panel">
+      <div class="card">
+        <span class="badge">מאגר ארבעים שאלות</span>
+        <h2>תרגול ומבחן ללא חזרות מיותרות</h2>
+        <p>המערכת שומרת בדפדפן אילו שאלות כבר הופיעו לך, ובוחרת קודם שאלות שעוד לא תרגלת עד שתעבור על כל ארבעים השאלות.</p>
+
+        <div class="btn-row">
+          <label for="qCountSelect"><strong>מספר שאלות במבחן</strong></label>
+          <select id="qCountSelect">
+            <option value="10" selected>עשר שאלות</option>
+            <option value="20">עשרים שאלות</option>
+          </select>
+          <button id="startQuizBtn" class="btn">התחל מבחן חדש</button>
+          <button id="resetSeenBtn" class="btn secondary">אפס מעקב שאלות שנצפו</button>
+        </div>
+
+        <div class="progress-wrap">
+          <div id="seenProgressBar" class="progress-bar"></div>
+        </div>
+        <div id="seenProgressText"></div>
+      </div>
+
+      <div id="quizResultArea"></div>
+      <div id="quizQuestionsArea"></div>
+
+      <div id="submitQuizWrap" style="display:none;" class="card">
+        <button id="submitQuizBtn" class="btn accent">הגש מבחן ובדוק ציון</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const SPEECH_TEXTS = {
+      p19_makom:
+        "בפרק יט בספר ויקרא מופיעה הקריאה להיות קדושים. חלק מהמצוות הן בין אדם למקום כמו שמירת שבת, איסור עבודה זרה ושמירה על כבוד שם ה ושבועות אמת.",
+      p19_haver:
+        "בפרק יט מופיעות מצוות חשובות בין אדם לחברו. עזרה לעניים בלקט שכחה ופאה, תשלום שכר בזמן, יושר במשקל ובמידות, איסור רכילות, איסור לעמוד על דם רעך, תוכחה נעימה, איסור נקמה ונטירה, כבוד זקנים, אהבת הגר והמצווה הגדולה ואהבת לרעך כמוך.",
+      p25_shmita:
+        "בפרק כה פסוקים א עד ז נאמר הציווי על שנת השמיטה מהר סיני. בכל שנה שביעית הארץ שובתת ממלאכה, אסור לזרוע ולזמור והיבול הפקר לכל אדם ולבעלי החיים.",
+      p25_yovel:
+        "בפרק כה פסוקים ח עד יג נאמר שסופרים שבע שמיטות של ארבעים ותשע שנים, והשנה החמישים היא שנת היובל. תוקעים בשופר ביום הכיפורים, מכריזים דרור, כל אחד חוזר אל אחוזתו ואל משפחתו ולא זורעים ולא קוצרים."
+    };
+    SPEECH_TEXTS.all = [
+      SPEECH_TEXTS.p19_makom,
+      SPEECH_TEXTS.p19_haver,
+      SPEECH_TEXTS.p25_shmita,
+      SPEECH_TEXTS.p25_yovel
+    ].join(" ");
+
+    const GLOSSARY = [
+      { term: "שבת בפרק יט", desc: "יום מנוחה קבוע שבו מפסיקים ממלאכה ומקדישים זמן לקדושה ולמשפחה." },
+      { term: "עבודה זרה", desc: "פנייה לאלילים או לכוחות אחרים במקום לעבוד את ה לבדו." },
+      { term: "לקט", desc: "שיבולים שנופלות מיד הקוצר בזמן הקציר ונשארות לעניים." },
+      { term: "שכחה", desc: "עומר או אלומה שנשכחו בשדה בזמן האיסוף ומיועדים לעניים." },
+      { term: "פאה", desc: "חלק מקצה השדה שמשאירים לא קצור עבור עניים." },
+      { term: "הלנת שכר", desc: "עיכוב תשלום שכרו של עובד מעבר לזמן שנקבע." },
+      { term: "לא תשים מכשול לפני עיוור", desc: "איסור להכשיל אדם שאינו רואה או שאינו מבין בתחום מסוים." },
+      { term: "רכילות", desc: "העברת דברים מאדם לאדם שעלולה לגרום למריבה או לפגיעה." },
+      { term: "לא תעמוד על דם רעך", desc: "החובה לעזור ולפעול כשאדם אחר נמצא בסכנה." },
+      { term: "תוכחה", desc: "הערה בונה ומכבדת לחבר שטעה כדי לעזור לו לתקן ולא מתוך שנאה." },
+      { term: "לא תקום", desc: "איסור להחזיר רעה תחת רעה למי שפגע בך." },
+      { term: "לא תטור", desc: "איסור לשמור טינה בלב ולזכור כעס ישן נגד חבר." },
+      { term: "ואהבת לרעך כמוך", desc: "כלל גדול בתורה שמנחה להתייחס לכל אדם בכבוד ובאכפתיות." },
+      { term: "גר", desc: "אדם שחי בקרב העם והצטרף אליו או מתגורר בארץ ויש לנהוג בו באהבה." },
+      { term: "שנת שמיטה", desc: "השנה השביעית שבה הארץ שובתת מעבודה חקלאית רגילה." },
+      { term: "הפקר", desc: "מצב שבו היבול פתוח וזמין לכל אדם ולבעלי החיים ללא בעלות פרטית." },
+      { term: "שנת יובל", desc: "השנה החמישים אחרי שבע שמיטות שבה מוכרז דרור ומושבות נחלות." },
+      { term: "דרור", desc: "חירות ושחרור שמוכרזים בשנת היובל לכל יושבי הארץ." },
+      { term: "אחוזתו", desc: "נחלת הקרקע המשפחתית של כל משפחה בארץ ישראל." },
+      { term: "משימה באופק", desc: "משימת תרגול דיגיטלית על פרק יט שכדאי לעבור עליה כהכנה למבחן." }
+    ];
+
+    const QUESTIONS = [
+      { id: 1, diff: "בסיסית", topic: "ויקרא יט", q: "באיזה פסוק פותח פרק יט בקריאה קדושים תהיו", opts: ["כי קדוש אני ה אלוקיכם", "כי חכם אני ה אלוקיכם", "כי גיבור אני ה אלוקיכם", "כי שומר אני ה אלוקיכם"], ans: 0, exp: "פרק יט פותח בציווי קדושים תהיו כי קדוש אני ה אלוקיכם." },
+      { id: 2, diff: "בסיסית", topic: "ויקרא יט", q: "איזו מצווה בפרק יט שייכת בעיקר לתחום שבין אדם למקום", opts: ["שמירת השבת", "השבת אבדה", "תשלום שכר בזמן", "כבוד זקנים"], ans: 0, exp: "שמירת השבת היא מצווה בולטת בין אדם למקום." },
+      { id: 3, diff: "בסיסית", topic: "ויקרא יט", q: "מהו לקט לפי דיני מתנות עניים", opts: ["שיבולים שנופלות בזמן הקציר", "פירות שנשארים על העץ בחורף", "מזון שנקנה בשוק", "חיטה שנשמרת באסם"], ans: 0, exp: "לקט הוא שיבולים שנופלות מיד הקוצר בזמן הקציר וניתנות לעניים." },
+      { id: 4, diff: "בסיסית", topic: "ויקרא יט", q: "מהי פאה בשדה", opts: ["קצה השדה שמשאירים לעניים", "הגדר שמקיפה את הבית", "השביל שבין השדות", "הבור שבו אוגרים מים"], ans: 0, exp: "פאה היא חלק מקצה השדה שלא קוצרים כדי שיהיה לעניים." },
+      { id: 5, diff: "בסיסית", topic: "ויקרא כה א-יג", q: "היכן נאמר הציווי על שנת השמיטה בתחילת פרק כה", opts: ["בהר סיני", "במדבר יהודה", "בירושלים", "בבקעת הירדן"], ans: 0, exp: "פרק כה פותח במילים וידבר ה אל משה בהר סיני לאמר." },
+      { id: 6, diff: "בסיסית", topic: "ויקרא כה א-יג", q: "באיזו שנה מחזורית חלה שנת השמיטה", opts: ["בשנה השביעית", "בשנה השנייה", "בשנה החמישית", "בשנה העשירית"], ans: 0, exp: "השנה השביעית היא שנת שבתון לארץ שנקראת שנת שמיטה." },
+      { id: 7, diff: "בסיסית", topic: "ויקרא כה א-יג", q: "איזו שנה היא שנת היובל", opts: ["השנה החמישים אחרי שבע שמיטות", "השנה השביעית אחרי שבע שנים", "השנה העשרים", "השנה הראשונה"], ans: 0, exp: "סופרים שבע שמיטות של ארבעים ותשע שנים והשנה החמישים היא היובל." },
+      { id: 8, diff: "בסיסית", topic: "ויקרא כה א-יג", q: "באיזה יום מכריזים על שנת היובל ותוקעים בשופר", opts: ["ביום הכיפורים", "בראש השנה", "בפסח", "בשבועות"], ans: 0, exp: "ביום הכיפורים מעבירים שופר תרועה בכל הארץ בשנת היובל." },
+      { id: 9, diff: "יישומית", topic: "ויקרא יט", q: "ילד בכיתה שמע סוד על חבר ורץ לספר אותו לילדים אחרים כדי לעורר דיבור. איזה איסור מתאים לכך", opts: ["הולך רכיל", "שכחה", "שמיטה", "יובל"], ans: 0, exp: "העברת דברים שגורמת לחיכוך ולפגיעה נקראת רכילות." },
+      { id: 10, diff: "יישומית", topic: "ויקרא יט", q: "מעסיק סיים עבודה של עובד ביום שלישי והבטיח לשלם מיד אך דחה שוב ושוב ללא הצדקה. איזה עיקרון נפגע", opts: ["איסור הלנת שכר", "מצוות פאה", "שנת יובל", "הפקר"], ans: 0, exp: "התורה מדגישה לא להלין שכר פעול ולשלם בזמן." },
+      { id: 11, diff: "יישומית", topic: "ויקרא יט", q: "תלמיד ראה חבר שנתקע בבעיה לימודית ונתן לו עצה טובה ושקטה כדי שיתקדם. למה זה דומה בפרק יט", opts: ["הוכח תוכיח את עמיתך", "לא תעמוד על דם רעך", "שכחה", "יובל"], ans: 0, exp: "תוכחה נועדה לעזור לחבר לתקן ולצמוח בדרך מכבדת." },
+      { id: 12, diff: "יישומית", topic: "ויקרא יט", q: "מישהו כעס על חבר אתמול אבל היום אומר אני לא אנקום בו אך אני שומר בלב את הכעס. מה זה נקרא", opts: ["נוטר", "נוקם", "גר", "שכיר"], ans: 0, exp: "נוטר הוא מי ששומר טינה וכעס בלב גם אם לא מחזיר מעשה בפועל." },
+      { id: 13, diff: "יישומית", topic: "ויקרא כה א-יג", q: "מה קורה ליבול שצומח בשדה בשמיטה", opts: ["הוא הפקר לכל אדם ולבעלי החיים", "הוא שייך רק לבעל השדה", "אסור לאכול ממנו כלל", "שולחים אותו לחוץ לארץ"], ans: 0, exp: "יבול השביעית הוא הפקר כדי שכל אחד וכל בעל חיים יוכלו ליהנות ממנו." },
+      { id: 14, diff: "יישומית", topic: "ויקרא כה א-יג", q: "מה קורה לקרקעות ולמשפחות בשנת היובל", opts: ["כל איש שב אל אחוזתו ואל משפחתו", "כולם עוזבים את הארץ", "מחליפים את שמות כל הערים", "מבטלים את ימי השבוע"], ans: 0, exp: "בשנת היובל מוכרז דרור וכל אחד חוזר אל אחוזתו ואל משפחתו." },
+      { id: 15, diff: "יישומית", topic: "הכנה למבחן", q: "מה כדאי להכין לבית הספר לקראת השיעור והמבחן לפי הודעת המורה", opts: ["מחברת תנך ומשימה באופק", "מחברת חשבון בלבד", "רק יומן קריאה", "בגדי ספורט"], ans: 0, exp: "בהודעה צוין להביא מחברת תנך ולעבור על המשימה באופק על פרק יט." },
+      { id: 16, diff: "בסיסית", topic: "ויקרא יט", q: "מה מצווה התורה כלפי מפני שיבה תקום והדרת פני זקן", opts: ["לקום בפני מבוגרים ולכבד אותם", "לרוץ לפניהם בתור", "להתעלם מהם", "לדבר אליהם בחוסר כבוד"], ans: 0, exp: "הפסוק מדגיש כבוד והדר כלפי מבוגרים וזקנים." },
+      { id: 17, diff: "בסיסית", topic: "ויקרא יט", q: "איך התורה מבקשת להתייחס לגר בפרק יט", opts: ["כאזרח מכם ואהבת לו כמוך", "כזר שאינו רצוי", "בלי לשים לב אליו", "רק בימים מסוימים"], ans: 0, exp: "פרק יט חוזר ומדגיש אהבת הגר וזכירת עברנו כגרים." },
+      { id: 18, diff: "בסיסית", topic: "ויקרא כה א-יג", q: "האם מותר לזרוע ולזמור בשנת היובל", opts: ["לא כי יובל היא שנת קודש ותשוב", "כן בכל השדות", "רק בערב שבת", "רק בבוקר"], ans: 0, exp: "גם בשנת היובל לא זורעים ולא קוצרים כי היא יובל וקודש תהיה לכם." },
+      { id: 19, diff: "יישומית", topic: "ויקרא יט", q: "איזו התנהגות מתאימה למצוות לא תעמוד על דם רעך", opts: ["להזעיק עזרה ולסייע למי שבסכנה", "לעמוד מהצד ולצלם", "ללכת הביתה בלי לדווח", "לצחוק על המצב"], ans: 0, exp: "לא תעמוד על דם רעך מחייב לפעול ולסייע כשאדם אחר בסכנה." },
+      { id: 20, diff: "יישומית", topic: "ויקרא יט", q: "מה המשמעות של משפט צדק בפרק יט", opts: ["לא להטות משפט לטובת עשיר או לטובת עני אלא לשפוט אמת", "לפסוק תמיד לפי מי שצועק חזק יותר", "להחליט לפי מצב הרוח", "להעדיף קרובי משפחה"], ans: 0, exp: "התורה מבקשת צדק ויושר אמיתי במשפט בלי משוא פנים." },
+      { id: 21, diff: "בסיסית", topic: "ויקרא יט", q: "מה אסור לעשות בשבועה לפי פרק יט", opts: ["להישבע בשם ה לשקר", "לדבר אמת", "לשמור על הבטחה", "לכבד הורים"], ans: 0, exp: "הפסוק מזהיר שלא להישבע בשם ה לשקר ולחלל את שם אלוקיך." },
+      { id: 22, diff: "בסיסית", topic: "ויקרא יט", q: "איזה איסור נאמר על עבודה זרה בפרק יט", opts: ["אל תפנו אל האלילים ואלוקי מסכה לא תעשו לכם", "מותר לפסל פסלים מזהב", "מותר להתפלל לכוכבים", "אין התייחסות לעבודה זרה"], ans: 0, exp: "הפסוק מדגיש לא לפנות אל האלילים ולא לעשות אלוקי מסכה." },
+      { id: 23, diff: "יישומית", topic: "ויקרא יט", q: "מוכר בחנות משתמש במשקל מזויף כדי למכור פחות במחיר מלא. מה נאמר על כך בפרק יט", opts: ["התורה דורשת מאזני צדק ואבני צדק", "זה מותר אם אף אחד לא שם לב", "זה מותר רק בחגים", "אין קשר לפרק יט"], ans: 0, exp: "פרק יט מדגיש מאזני צדק, אבני צדק ואיפות צדק." },
+      { id: 24, diff: "יישומית", topic: "ויקרא יט", q: "למה נאמר לא תשים מכשול לפני עיוור", opts: ["כדי לא להכשיל מי שאינו רואה או מי שחסר ידע", "כדי ללמד להלך על חבל", "רק לגבי הליכה ברחוב חשוך", "כדי להסתיר חפצים"], ans: 0, exp: "הביטוי מלמד לא להכשיל אדם לא רק בדרך אלא גם בעצה או במעשה." },
+      { id: 25, diff: "בסיסית", topic: "ויקרא כה א-יג", q: "כמה שנים יש במחזור של שבע שמיטות", opts: ["ארבעים ותשע שנים", "שבע שנים", "עשרים ושמונה שנים", "שישים שנה"], ans: 0, exp: "שבע כפול שבע שווה ארבעים ותשע שנים." },
+      { id: 26, diff: "בסיסית", topic: "ויקרא כה א-יג", q: "מה נקרא שבת שבתון לארץ", opts: ["שנת השמיטה", "ראש חודש", "חג הסוכות", "פורים"], ans: 0, exp: "שנת השמיטה מתוארת כשבת שבתון לארץ." },
+      { id: 27, diff: "יישומית", topic: "ויקרא כה א-יג", q: "מה לומדים מכך שגם בשנת היובל לא זורעים ולא קוצרים", opts: ["שסומכים על ה ונותנים לארץ ולמשפחות מנוחה והתחדשות", "שאסור לאכול בכלל באותה שנה", "שזורעים רק בלילה", "שמוכרים את השדה לתמיד"], ans: 0, exp: "שנת היובל מביאה מנוחה, שחרור וחזרה אל המשפחה והנחלה." },
+      { id: 28, diff: "בסיסית", topic: "ויקרא יט", q: "מהי שכחה", opts: ["עומר או יבול שנשכחו בשדה ונשארים לעניים", "שכחת שם של ספר", "חופש מבית הספר", "טיול שנתי"], ans: 0, exp: "שכחה היא יבול שנשכח בשדה ומושארים לעניים ולגר." },
+      { id: 29, diff: "יישומית", topic: "ויקרא יט", q: "מה ההבדל בין נוקם לנוטר", opts: ["נוקם גומל בפועל ונוטר שומר כעס בלב", "אין הבדל כלל", "נוטר הוא תמיד חבר קרוב", "נוקם הוא רק שופט"], ans: 0, exp: "נוקם מחזיר בפועל על פגיעה ונוטר שומר בלב את הכעס הישן." },
+      { id: 30, diff: "בסיסית", topic: "ויקרא יט", q: "באיזה פסוק בפרק יט מופיעה המצווה ואהבת לרעך כמוך", opts: ["בפרק יט פסוק יח", "בפרק כה פסוק א", "בפרק יט פסוק א", "בפרק כה פסוק יג"], ans: 0, exp: "המצווה ואהבת לרעך כמוך מופיעה בפרק יט פסוק יח." },
+      { id: 31, diff: "יישומית", topic: "ויקרא יט", q: "למה חשוב להוכיח חבר בדרך טובה ולא לבייש אותו", opts: ["כדי שלא ישא עליו חטא ושיקבל את הדברים", "כדי להראות שאנחנו צודקים", "כדי שכולם ישמעו", "אין חשיבות לאופן התוכחה"], ans: 0, exp: "תוכחה מכבדת שומרת על כבוד החבר ומסייעת לו לתקן." },
+      { id: 32, diff: "בסיסית", topic: "ויקרא כה א-יג", q: "מה פירוש המילה דרור בשנת היובל", opts: ["חירות ושחרור", "עבודה קשה", "מס גבוה", "סגירת השערים"], ans: 0, exp: "וקראתם דרור בארץ לכל יושביה פירושו הכרזה על חירות ושחרור." },
+      { id: 33, diff: "יישומית", topic: "ויקרא כה א-יג", q: "איזו שנה בלוח חמישים השנים היא שנת שמיטה ראשונה", opts: ["שנה שבע", "שנה ראשונה", "שנה חמישית", "שנה חמישים"], ans: 0, exp: "שנת השמיטה הראשונה היא השנה השביעית." },
+      { id: 34, diff: "יישומית", topic: "ויקרא כה א-יג", q: "איזו שנה בלוח חמישים השנים היא שנת שמיטה אחרונה לפני היובל", opts: ["שנה ארבעים ותשע", "שנה ארבעים ושמונה", "שנה חמישים", "שנה ארבעים ושתיים"], ans: 0, exp: "השנה הארבעים ותשע היא השמיטה השביעית ומיד אחריה שנה חמישים היא היובל." },
+      { id: 35, diff: "בסיסית", topic: "ויקרא יט", q: "איזה איסור נאמר על חרש בפרק יט", opts: ["לא תקלל חרש", "אסור לדבר לידו", "אסור להושיט לו יד", "אין אזכור של חרש"], ans: 0, exp: "הפסוק אומר לא תקלל חרש ומדגיש כבוד לכל אדם." },
+      { id: 36, diff: "יישומית", topic: "ויקרא יט", q: "איך מתחברות מצוות בין אדם למקום ומצוות בין אדם לחברו בפרק יט", opts: ["שניהם חלק מקריאה לחיות חיים מתוקנים ומלאי אחריות", "הן סותרות זו את זו", "רק מצוות בין אדם למקום חשובות", "רק מצוות שבין אדם לחברו חשובות"], ans: 0, exp: "בפרק יט קדושה כוללת גם קשר עם ה וגם יחס הוגן וטוב לבני אדם." },
+      { id: 37, diff: "יישומית", topic: "ויקרא כה א-יג", q: "מהי התועלת החברתית של שנת השמיטה והיובל", opts: ["מנוחה לארץ דאגה לעניים ושמירה על קשר למשפחה ולאדמה", "הפסקת לימודים לתמיד", "ביטול החגים", "הגדלת המיסים"], ans: 0, exp: "שמיטה ויובל מחזקים צדק חברתי, דאגה לזולת והכרת תודה." },
+      { id: 38, diff: "בסיסית", topic: "הכנה למבחן", q: "איזה יום בשבוע מתקיים המבחן בתורה לפי ההודעה שצורפה", opts: ["ביום רביעי בתאריך עשרים וחמישה באחת עשרה", "ביום ראשון", "ביום שישי", "בשבת"], ans: 0, exp: "בהודעה נכתב שהמבחן יתקיים ביום רביעי בתאריך עשרים וחמישה באחת עשרה." },
+      { id: 39, diff: "יישומית", topic: "ויקרא יט", q: "מה מלמדת המצווה ואהבת הגר כי גרים הייתם בארץ מצרים", opts: ["לזכור את חוויית הזרות ולנהוג ברגישות ובאהבה במי שגר איתנו", "לשכוח את העבר", "להתנהג בקשיחות", "להבדיל לרעה"], ans: 0, exp: "הזיכרון ההיסטורי מעורר אמפתיה ואהבה כלפי הגר." },
+      { id: 40, diff: "יישומית", topic: "ויקרא כה א-יג", q: "למה נאמר בתחילת פרק כה כי תבואו אל הארץ אשר אני נותן לכם", opts: ["כדי להראות שהמצוות החקלאיות מתקיימות בארץ ישראל", "כי המצוות מתקיימות רק במדבר", "כדי לבטל את השבת", "ללא קשר לארץ"], ans: 0, exp: "דיני שמיטה ויובל קשורים לכניסה אל הארץ וליישוב בה." }
+    ];
+
+    const STORAGE_KEY_SEEN = "vayikra_g5_seen_questions_v1";
+    let currentQuizQuestions = [];
+    let selectedYear = 7;
+
+    // לשוניות
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    // הדמיית 50 שנות שמיטה ויובל
+    function renderYearGrid() {
+      const grid = document.getElementById("yearGrid");
+      grid.innerHTML = "";
+      for (let y = 1; y <= 50; y++) {
+        const box = document.createElement("button");
+        box.type = "button";
+        box.className = "year-box";
+        box.textContent = String(y);
+        if (y === 50) {
+          box.classList.add("yovel");
+          box.title = "שנת היובל";
+        } else if (y % 7 === 0) {
+          box.classList.add("shmita");
+          box.title = "שנת שמיטה";
+        }
+        if (y === selectedYear) {
+          box.classList.add("selected");
+        }
+        box.addEventListener("click", () => {
+          selectedYear = y;
+          renderYearGrid();
+          renderYearDetails(y);
+        });
+        grid.appendChild(box);
+      }
+    }
+
+    function renderYearDetails(y) {
+      const el = document.getElementById("yearDetails");
+      if (y === 50) {
+        el.innerHTML = "<strong>שנה חמישים — שנת היובל</strong><br/>סיימנו שבע שמיטות של ארבעים ותשע שנים. תוקעים בשופר ביום הכיפורים, מכריזים דרור בכל הארץ, כל אחד שב אל אחוזתו ואל משפחתו, ולא זורעים ולא קוצרים.";
+      } else if (y % 7 === 0) {
+        const shmitaNum = y / 7;
+        el.innerHTML = `<strong>שנה ${y} — שנת שמיטה מספר ${shmitaNum}</strong><br/>הארץ שובתת ממלאכה חקלאית. אסור לזרוע ולזמור, והיבול הפקר לכל אדם ולבעלי החיים.`;
+      } else {
+        const nextShmita = Math.ceil(y / 7) * 7;
+        el.innerHTML = `<strong>שנה ${y} — שנת עבודה חקלאית רגילה</strong><br/>ממשיכים לעבוד את האדמה ביושר ובאחריות. שנת השמיטה הקרובה היא שנה ${nextShmita}.`;
+      }
+    }
+
+    // הקראה קולית
+    function initSpeech() {
+      const notice = document.getElementById("speechSupportNotice");
+      const select = document.getElementById("speechSelect");
+      const preview = document.getElementById("speechPreviewText");
+      preview.textContent = SPEECH_TEXTS[select.value];
+
+      if (!("speechSynthesis" in window)) {
+        notice.innerHTML = '<div class="notice">הדפדפן במכשיר זה אינו תומך בהקראה קולית מובנית. ניתן לקרוא את הטקסט ישירות מתוך המסך.</div>';
+        return;
+      }
+
+      select.addEventListener("change", () => {
+        preview.textContent = SPEECH_TEXTS[select.value];
+      });
+
+      document.getElementById("playBtn").addEventListener("click", () => {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(SPEECH_TEXTS[select.value]);
+        utter.lang = "he-IL";
+        utter.rate = parseFloat(document.getElementById("rateSelect").value);
+        const voices = window.speechSynthesis.getVoices();
+        const heVoice = voices.find((v) => v.lang && v.lang.toLowerCase().startsWith("he"));
+        if (heVoice) utter.voice = heVoice;
+        window.speechSynthesis.speak(utter);
+      });
+
+      document.getElementById("pauseBtn").addEventListener("click", () => {
+        if (window.speechSynthesis.speaking) window.speechSynthesis.pause();
+      });
+
+      document.getElementById("resumeBtn").addEventListener("click", () => {
+        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+      });
+
+      document.getElementById("stopBtn").addEventListener("click", () => {
+        window.speechSynthesis.cancel();
+      });
+    }
+
+    // מילון מושגים
+    function renderGlossary(filterText = "") {
+      const clean = filterText.trim().toLowerCase();
+      const list = document.getElementById("glossaryList");
+      const filtered = GLOSSARY.filter(
+        (item) => item.term.toLowerCase().includes(clean) || item.desc.toLowerCase().includes(clean)
+      );
+
+      list.innerHTML = filtered
+        .map(
+          (item) => `
+          <div class="term-card">
+            <div class="term-title">${item.term}</div>
+            <div>${item.desc}</div>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    // מערכת שאלות ומבחן ללא חזרות
+    function getSeenIds() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_SEEN);
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveSeenIds(ids) {
+      try {
+        localStorage.setItem(STORAGE_KEY_SEEN, JSON.stringify(Array.from(new Set(ids))));
+      } catch {}
+    }
+
+    function updateSeenProgress() {
+      const seen = getSeenIds();
+      const total = QUESTIONS.length;
+      const pct = Math.round((seen.length / total) * 100);
+      document.getElementById("seenProgressBar").style.width = `${pct}%`;
+      document.getElementById("seenProgressText").innerHTML =
+        `<strong>התקדמות במאגר השאלות</strong> עברת על ${seen.length} מתוך ${total} שאלות (${pct} אחוז)`;
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function startNewQuiz() {
+      const desiredCount = parseInt(document.getElementById("qCountSelect").value, 10);
+      let seen = getSeenIds();
+      let unseen = shuffleArray(QUESTIONS.filter((q) => !seen.includes(q.id)));
+
+      if (unseen.length === 0) {
+        seen = [];
+        saveSeenIds([]);
+        unseen = shuffleArray(QUESTIONS);
+      }
+
+      let picked = unseen.slice(0, desiredCount);
+      if (picked.length < desiredCount) {
+        const rest = shuffleArray(QUESTIONS.filter((q) => !picked.some((p) => p.id === q.id)));
+        picked = picked.concat(rest.slice(0, desiredCount - picked.length));
+      }
+
+      currentQuizQuestions = picked;
+      saveSeenIds(seen.concat(picked.map((q) => q.id)));
+      updateSeenProgress();
+
+      document.getElementById("quizResultArea").innerHTML = "";
+      renderQuizQuestions();
+      document.getElementById("submitQuizWrap").style.display = "block";
+    }
+
+    function renderQuizQuestions() {
+      const area = document.getElementById("quizQuestionsArea");
+      area.innerHTML = currentQuizQuestions
+        .map(
+          (q, idx) => `
+          <div class="q-card" id="qCard_${q.id}">
+            <div class="q-meta">
+              <span>שאלה ${idx + 1} מתוך ${currentQuizQuestions.length}</span>
+              <span>${q.topic} — רמה ${q.diff}</span>
+            </div>
+            <div><strong>${q.q}</strong></div>
+            ${q.opts
+              .map(
+                (opt, oIdx) => `
+                <label class="opt-label">
+                  <input type="radio" name="q_${q.id}" value="${oIdx}" />
+                  ${opt}
+                </label>
+              `
+              )
+              .join("")}
+            <div id="fb_${q.id}"></div>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    function submitQuiz() {
+      let correctCount = 0;
+
+      currentQuizQuestions.forEach((q) => {
+        const checked = document.querySelector(`input[name="q_${q.id}"]:checked`);
+        const userAns = checked ? parseInt(checked.value, 10) : -1;
+        const fb = document.getElementById(`fb_${q.id}`);
+
+        if (userAns === q.ans) {
+          correctCount++;
+          fb.innerHTML = `<div class="feedback ok"><strong>תשובה נכונה</strong><br/>${q.exp}</div>`;
+        } else {
+          fb.innerHTML = `<div class="feedback err"><strong>כדאי לבדוק שוב</strong><br/>התשובה הנכונה היא ${q.opts[q.ans]}. ${q.exp}</div>`;
+        }
+      });
+
+      const score = Math.round((correctCount / currentQuizQuestions.length) * 100);
+      const seenCount = getSeenIds().length;
+      const finishedAllNotice =
+        seenCount >= QUESTIONS.length
+          ? '<div class="notice">סיימת לעבור על כל ארבעים השאלות במאגר. בלחיצה על מבחן חדש יתחיל סבב רענן מהתחלה.</div>'
+          : "";
+
+      document.getElementById("quizResultArea").innerHTML = `
+        <div class="score-box">
+          <h2>הציון שלך במבחן הוא ${score}</h2>
+          <p>ענית נכון על ${correctCount} מתוך ${currentQuizQuestions.length} שאלות.</p>
+          ${finishedAllNotice}
+          <button type="button" id="afterSubmitNewQuizBtn" class="btn">התחל מבחן חדש</button>
+        </div>
+      `;
+
+      document.getElementById("afterSubmitNewQuizBtn").addEventListener("click", startNewQuiz);
+      window.scrollTo({ top: document.getElementById("quiz").offsetTop - 20, behavior: "smooth" });
+    }
+
+    document.getElementById("glossarySearch").addEventListener("input", (e) => {
+      renderGlossary(e.target.value);
+    });
+
+    document.getElementById("startQuizBtn").addEventListener("click", startNewQuiz);
+    document.getElementById("submitQuizBtn").addEventListener("click", submitQuiz);
+    document.getElementById("resetSeenBtn").addEventListener("click", () => {
+      saveSeenIds([]);
+      updateSeenProgress();
+      document.getElementById("quizResultArea").innerHTML =
+        '<div class="notice">מעקב השאלות שנצפו אופס. המבחן הבא יבחר מתוך כל המאגר.</div>';
+    });
+
+    renderYearGrid();
+    renderYearDetails(selectedYear);
+    initSpeech();
+    renderGlossary();
+    updateSeenProgress();
+    startNewQuiz();
+  </script>
+</body>
+</html>
